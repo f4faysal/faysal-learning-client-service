@@ -5,7 +5,7 @@ export interface IMeta {
 }
 
 export type ResponseSuccessType = {
-  data: any;
+  data?: any;
   meta?: IMeta;
 };
 
@@ -20,16 +20,14 @@ export type IGenericErrorMessage = {
   message: string;
 };
 
-export interface IDepartment {
+export interface ICourse {
   id: string;
+  userId: string;
   title: string;
-  createdAt: string;
-  updatedAt: string;
-  __v: number;
-}
-
-export interface Name {
-  firstName: string;
-  lastName: string;
-  middleName: string;
+  description?: string;
+  imageUrl?: string;
+  price?: number;
+  categoryId?: string;
+  createdAt?: string;
+  updatedAt?: string;
 }

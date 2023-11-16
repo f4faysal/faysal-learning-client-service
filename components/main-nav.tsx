@@ -4,96 +4,52 @@ import Link from "next/link";
 import { useParams, usePathname } from "next/navigation";
 
 import { cn } from "@/lib/utils";
-import { getUserInfo } from "@/services/auth.service";
 
 export function MainNav({
   className,
   ...props
 }: React.HTMLAttributes<HTMLElement>) {
-  const { role }: any = getUserInfo();
+  // const { role }: any = getUserInfo();
+  const role: any = "student";
 
   const pathname = usePathname();
   const params = useParams();
 
-  const routesHomeOwner = [
+  const instactur = [
     {
-      href: `/en/list-your-property`,
-      label: "Add Property",
-      active: pathname === `/en/list-your-property`,
+      href: `/my-classes`,
+      label: "My Classes",
+      active: pathname === `/my-classes`,
     },
     {
-      href: `/en/blog`,
-      label: "Blog",
-      active: pathname === `/en/blog`,
+      href: `/courses`,
+      label: "Courses",
+      active: pathname === `/my-classes`,
     },
     {
-      href: `/en/guides`,
-      label: "Guides",
-      active: pathname === `/en/guides`,
-    },
-    {
-      href: `/en/new-projects`,
-      label: "New Projects",
-      active: pathname === `/en/new-projects`,
-    },
-    {
-      href: `/en/services`,
-      label: "Services",
-      active: pathname === `/en/services`,
-    },
-    {
-      href: `/en/dashboard`,
-      label: "Dashboard",
-      active: pathname === `/en/dashboard`,
+      href: `/dashboard`,
+      label: "Instructor",
+      active: pathname === `/dashboard`,
     },
   ];
-  const routesRentUser = [
+  const student = [
     {
-      href: `/en/blog`,
-      label: "Blog",
-      active: pathname === `/en/blog`,
+      href: `/my-classes`,
+      label: "My Classes",
+      active: pathname === `/my-classes`,
     },
     {
-      href: `/en/guides`,
-      label: "Guides",
-      active: pathname === `/en/guides`,
-    },
-    {
-      href: `/en/new-projects`,
-      label: "New Projects",
-      active: pathname === `/en/new-projects`,
-    },
-    {
-      href: `/en/services`,
-      label: "Services",
-      active: pathname === `/en/services`,
+      href: `/courses`,
+      label: "Courses",
+      active: pathname === `/my-classes`,
     },
   ];
+
   const routesPublickUser = [
     {
-      href: `/en/list-your-property`,
-      label: "Add Property",
-      active: pathname === `/en/list-your-property`,
-    },
-    {
-      href: `/en/blog`,
-      label: "Blog",
-      active: pathname === `/en/blog`,
-    },
-    {
-      href: `/en/guides`,
-      label: "Guides",
-      active: pathname === `/en/guides`,
-    },
-    {
-      href: `/en/new-projects`,
-      label: "New Projects",
-      active: pathname === `/en/new-projects`,
-    },
-    {
-      href: `/en/services`,
-      label: "Services",
-      active: pathname === `/en/services`,
+      href: `/courses`,
+      label: "Courses",
+      active: pathname === `/my-classes`,
     },
   ];
 
@@ -102,8 +58,8 @@ export function MainNav({
       className={cn("flex items-center space-x-4 lg:space-x-6", className)}
       {...props}
     >
-      {role === "HomeOwner"
-        ? routesHomeOwner.map((route) => (
+      {role === "instructor"
+        ? instactur.map((route) => (
             <Link
               key={route.href}
               href={route.href}
@@ -117,8 +73,8 @@ export function MainNav({
               {route.label}
             </Link>
           ))
-        : role === "RentUser"
-        ? routesRentUser.map((route) => (
+        : role === "student"
+        ? student.map((route) => (
             <Link
               key={route.href}
               href={route.href}

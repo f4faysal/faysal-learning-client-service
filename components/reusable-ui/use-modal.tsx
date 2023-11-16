@@ -2,14 +2,8 @@
 
 import { useDispatch, useSelector } from "react-redux";
 
-import * as z from "zod";
-
-import { closeModal } from "@/redux/features/modal/modalSlice";
+import { onClose } from "@/redux/features/modal/modalSlice";
 import { Modal } from "./modal";
-
-const formSchema = z.object({
-  name: z.string().min(1),
-});
 
 interface ModalProps {
   children: React.ReactNode;
@@ -22,7 +16,7 @@ const UseModal: React.FC<ModalProps> = ({ children, title, description }) => {
   const isModalOpen = useSelector((state: any) => state.modal.isOpen);
 
   const handleCloseModal = () => {
-    dispatch(closeModal());
+    dispatch(onClose());
   };
 
   return (

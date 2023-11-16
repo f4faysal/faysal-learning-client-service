@@ -18,11 +18,13 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { useCreateCourseMutation } from "@/redux/api/courseApi";
 
 const formSchema = z.object({
   title: z.string().min(1, {
     message: "Title is required",
   }),
+  userId: z.string().optional(),
 });
 
 const CreatePage = () => {
@@ -34,13 +36,16 @@ const CreatePage = () => {
     },
   });
 
+  const [createCourse] = useCreateCourseMutation();
+
   const { isSubmitting, isValid } = form.formState;
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    values.userId = "1" as any;
     try {
-      // const response = await axios.post("/api/courses", values);
-      // router.push(`/teacher/courses/${response.data.id}`);
-      console.log(values);
+      const response: any = await createCourse(values);
+      router.push(`/teacher/courses/${response.data.id}`);
+      console.log(response);
       toast.success("Course created");
     } catch {
       toast.error("Something went wrong");
