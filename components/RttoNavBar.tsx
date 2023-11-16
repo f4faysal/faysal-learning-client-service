@@ -1,26 +1,35 @@
 "use client";
 
 import { onOpen } from "@/redux/features/modal/modalSlice";
+import { getUserInfo } from "@/services/auth.service";
 import { LogIn } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { MainNav } from "./main-nav";
 import Profile from "./profile";
 import UseModal from "./reusable-ui/use-modal";
+import SingUp from "./ui/auth/sing-up";
+import LoginPage from "./ui/auth/song-in";
 import { Button } from "./ui/button";
 import Container from "./ui/container";
 
 const RootNavBar = () => {
-  // const { role }: any = getUserInfo();
+  const { role }: any = getUserInfo();
   const dispatch = useDispatch();
+  const [toggleLogin, setToggleLogin] = useState<string>("sing-in");
 
-  const role = undefined;
+  console.log(role);
 
   return (
     <nav className="border-b">
-      <UseModal title="Login" description="">
-        <h1>modal</h1>
+      <UseModal title="" description="">
+        {toggleLogin === "sing-in" ? (
+          <LoginPage setToggleLogin={setToggleLogin} />
+        ) : (
+          <SingUp setToggleLogin={setToggleLogin} />
+        )}
       </UseModal>
       <Container>
         <div className="flex h-16 items-center px-4">
@@ -34,7 +43,10 @@ const RootNavBar = () => {
             ) : (
               // <Link href="/sign-in">
               <Button
-                onClick={() => dispatch(onOpen())}
+                onClick={() => {
+                  dispatch(onOpen());
+                  setToggleLogin("sing-in");
+                }}
                 className="flex gap-2"
                 size={"sm"}
                 variant={"outline"}

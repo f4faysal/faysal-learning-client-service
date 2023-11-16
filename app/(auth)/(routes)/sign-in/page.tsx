@@ -1,4 +1,4 @@
-import LoginPage from "@/components/ui/auth/login";
+import LoginPage from "@/components/ui/auth/song-in";
 
 const SignIn = () => {
   return (

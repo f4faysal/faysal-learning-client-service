@@ -4,13 +4,13 @@ import Link from "next/link";
 import { useParams, usePathname } from "next/navigation";
 
 import { cn } from "@/lib/utils";
+import { getUserInfo } from "@/services/auth.service";
 
 export function MainNav({
   className,
   ...props
 }: React.HTMLAttributes<HTMLElement>) {
-  // const { role }: any = getUserInfo();
-  const role: any = "student";
+  const { role }: any = getUserInfo();
 
   const pathname = usePathname();
   const params = useParams();
