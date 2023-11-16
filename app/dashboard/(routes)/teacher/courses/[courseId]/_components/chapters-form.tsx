@@ -1,7 +1,6 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import axios from "axios";
 import { Loader2, PlusCircle } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -23,6 +22,7 @@ import { cn } from "@/lib/utils";
 import {
   useCreatechapterMutation,
   useLastChapterQuery,
+  useReorderMutation,
 } from "@/redux/api/chapterApi";
 import { ChaptersList } from "./chapters-list";
 
@@ -43,6 +43,7 @@ export const ChaptersForm = ({ initialData, courseId }: ChaptersFormProps) => {
   const { data, isLoading } = useLastChapterQuery(courseId);
 
   const [createchapter] = useCreatechapterMutation();
+  const [reorder] = useReorderMutation();
 
   const toggleCreating = () => {
     setIsCreating((current) => !current);
@@ -75,10 +76,12 @@ export const ChaptersForm = ({ initialData, courseId }: ChaptersFormProps) => {
   const onReorder = async (updateData: { id: string; position: number }[]) => {
     try {
       setIsUpdating(true);
+      // await axios.put(`/api/courses/${courseId}/chapters/reorder`, {
+      //   list: updateData,
+      // });
+      await reorder({ list: updateData });
+      console.log({ list: updateData });
 
-      await axios.put(`/api/courses/${courseId}/chapters/reorder`, {
-        list: updateData,
-      });
       toast.success("Chapters reordered");
       router.refresh();
     } catch {
@@ -89,7 +92,7 @@ export const ChaptersForm = ({ initialData, courseId }: ChaptersFormProps) => {
   };
 
   const onEdit = (id: string) => {
-    router.push(`/teacher/courses/${courseId}/chapters/${id}`);
+    router.push(`/dashboard/teacher/courses/${courseId}/chapters/${id}`);
   };
 
   if (isLoading) {

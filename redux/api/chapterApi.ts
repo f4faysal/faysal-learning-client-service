@@ -54,6 +54,14 @@ export const chapterApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: [tagTypes.chapter],
     }),
+    reorder: build.mutation({
+      query: (paylod) => ({
+        url: `${chapter_url}/reorder`,
+        method: "PUT",
+        data: paylod.list,
+      }),
+      invalidatesTags: [tagTypes.chapter],
+    }),
     // delete chapter
     deletechapter: build.mutation({
       query: (id) => ({
@@ -72,4 +80,5 @@ export const {
   useUpdatechapterMutation,
   useDeletechapterMutation,
   useLastChapterQuery,
+  useReorderMutation,
 } = chapterApi;

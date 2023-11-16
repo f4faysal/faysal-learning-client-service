@@ -1,5 +1,4 @@
 "use client";
-
 import {
   CircleDollarSign,
   File,
@@ -37,7 +36,7 @@ const CourseIdPage = ({ params }: { params: { courseId: string } }) => {
 
   console.log(data);
 
-  const categories: any = getCategories();
+  const categories = getCategories();
 
   // if (!course) {
   //   return redirect("/");
