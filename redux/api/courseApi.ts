@@ -20,12 +20,6 @@ export const courseApi = baseApi.injectEndpoints({
         url: `${course_url}`,
         method: "GET",
       }),
-      transformResponse: (response, meta) => {
-        return {
-          course: response,
-          meta,
-        };
-      },
 
       providesTags: [tagTypes.course],
     }),

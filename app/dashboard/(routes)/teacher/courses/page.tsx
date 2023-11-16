@@ -2,19 +2,21 @@
 
 import { redirect } from "next/navigation";
 
-import { Button } from "@/components/ui/button";
+import { useCoursesQuery } from "@/redux/api/courseApi";
 import { getUserInfo } from "@/services/auth.service";
-import { PlusCircle } from "lucide-react";
-import Link from "next/link";
+import { columns } from "./_components/columns";
+import { DataTable } from "./_components/data-table";
 
 const CoursesPage = () => {
   const { userId }: any = getUserInfo();
-  console.log(userId);
+  const { data, isLoading } = useCoursesQuery({});
+
   if (!userId) {
     return redirect("/");
   }
 
-  // const courses = await db.course.findMany({
+  const courses = data;
+  console.log(courses);
   //   where: {
   //     userId,
   //   },
@@ -23,15 +25,13 @@ const CoursesPage = () => {
   //   },
   // });
 
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <div className="p-6">
-      <Link href="/dashboard/teacher/create">
-        <Button>
-          <PlusCircle className="h-4 w-4 mr-2" />
-          New course
-        </Button>
-      </Link>
-      {/* <DataTable columns={columns} data={courses} /> */}
+      <DataTable columns={columns} data={courses} />
     </div>
   );
 };

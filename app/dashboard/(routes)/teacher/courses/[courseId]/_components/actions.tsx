@@ -8,6 +8,7 @@ import toast from "react-hot-toast";
 
 import { ConfirmModal } from "@/components/modals/confirm-modal";
 import { Button } from "@/components/ui/button";
+import { useUpdateCourseMutation } from "@/redux/api/courseApi";
 import { onOpen } from "@/redux/features/modal/modalSlice";
 import { useDispatch } from "react-redux";
 
@@ -19,6 +20,8 @@ interface ActionsProps {
 
 export const Actions = ({ disabled, courseId, isPublished }: ActionsProps) => {
   const router = useRouter();
+
+  const [updateCourse] = useUpdateCourseMutation();
 
   const dispatch = useDispatch();
 
@@ -35,10 +38,19 @@ export const Actions = ({ disabled, courseId, isPublished }: ActionsProps) => {
       setIsLoading(true);
 
       if (isPublished) {
-        await axios.patch(`/api/courses/${courseId}/unpublish`);
-        toast.success("Course unpublished");
+        await updateCourse({
+          id: courseId,
+          data: {
+            isPublished: false,
+          },
+        });
       } else {
-        await axios.patch(`/api/courses/${courseId}/publish`);
+        await updateCourse({
+          id: courseId,
+          data: {
+            isPublished: true,
+          },
+        });
         toast.success("Course published");
         dispatch(onOpen());
       }
