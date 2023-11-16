@@ -1,39 +1,55 @@
 "use client";
 
-import axios from "axios";
 import { Trash } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import toast from "react-hot-toast";
-import { useRouter } from "next/navigation";
 
-import { Button } from "@/components/ui/button";
 import { ConfirmModal } from "@/components/modals/confirm-modal";
+import { Button } from "@/components/ui/button";
+import {
+  useDeletechapterMutation,
+  useUpdatechapterMutation,
+} from "@/redux/api/chapterApi";
 
 interface ChapterActionsProps {
   disabled: boolean;
   courseId: string;
   chapterId: string;
   isPublished: boolean;
-};
+}
 
 export const ChapterActions = ({
   disabled,
   courseId,
   chapterId,
-  isPublished
+  isPublished,
 }: ChapterActionsProps) => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
+
+  const [deletechapter] = useDeletechapterMutation();
+  const [updatechapter] = useUpdatechapterMutation();
 
   const onClick = async () => {
     try {
       setIsLoading(true);
 
       if (isPublished) {
-        await axios.patch(`/api/courses/${courseId}/chapters/${chapterId}/unpublish`);
+        await updatechapter({
+          id: chapterId,
+          data: {
+            isPublished: false,
+          },
+        });
         toast.success("Chapter unpublished");
       } else {
-        await axios.patch(`/api/courses/${courseId}/chapters/${chapterId}/publish`);
+        await await updatechapter({
+          id: chapterId,
+          data: {
+            isPublished: true,
+          },
+        });
         toast.success("Chapter published");
       }
 
@@ -43,23 +59,25 @@ export const ChapterActions = ({
     } finally {
       setIsLoading(false);
     }
-  }
-  
+  };
+
   const onDelete = async () => {
     try {
       setIsLoading(true);
 
-      await axios.delete(`/api/courses/${courseId}/chapters/${chapterId}`);
+      // const rest = await deletechapter(chapterId).unwrap();
+      // console.log(rest);
+      // await axios.delete(`/api/courses/${courseId}/chapters/${chapterId}`);
 
       toast.success("Chapter deleted");
       router.refresh();
-      router.push(`/teacher/courses/${courseId}`);
+      router.push(`/dashboard/teacher/courses/${courseId}`);
     } catch {
       toast.error("Something went wrong");
     } finally {
       setIsLoading(false);
     }
-  }
+  };
 
   return (
     <div className="flex items-center gap-x-2">
@@ -77,5 +95,5 @@ export const ChapterActions = ({
         </Button>
       </ConfirmModal>
     </div>
-  )
-}
+  );
+};

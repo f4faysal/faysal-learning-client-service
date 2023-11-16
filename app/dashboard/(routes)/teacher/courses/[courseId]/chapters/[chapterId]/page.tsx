@@ -1,12 +1,18 @@
 "use client";
 
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, Eye, LayoutDashboard, Video } from "lucide-react";
 import Link from "next/link";
 
 import { Banner } from "@/components/banner";
 
+import { IconBadge } from "@/components/icon-badge";
 import { useChapterQuery } from "@/redux/api/chapterApi";
 import { getUserInfo } from "@/services/auth.service";
+import { ChapterAccessForm } from "./_components/chapter-access-form";
+import { ChapterActions } from "./_components/chapter-actions";
+import { ChapterDescriptionForm } from "./_components/chapter-description-form";
+import { ChapterTitleForm } from "./_components/chapter-title-form";
+import { ChapterVideoForm } from "./_components/chapter-video-form";
 
 const ChapterIdPage = ({
   params,
@@ -61,16 +67,16 @@ const ChapterIdPage = ({
                   Complete all fields {completionText}
                 </span>
               </div>
-              {/* <ChapterActions
+              <ChapterActions
                 disabled={!isComplete}
-                courseId={params.courseId}
-                chapterId={params.chapterId}
-                isPublished={chapter.isPublished}
-              /> */}
+                courseId={params?.courseId}
+                chapterId={params?.chapterId}
+                isPublished={chapter?.isPublished}
+              />
             </div>
           </div>
         </div>
-        {/* <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-16">
           <div className="space-y-4">
             <div>
               <div className="flex items-center gap-x-2">
@@ -79,13 +85,13 @@ const ChapterIdPage = ({
               </div>
               <ChapterTitleForm
                 initialData={chapter}
-                courseId={params.courseId}
-                chapterId={params.chapterId}
+                courseId={params?.courseId}
+                chapterId={params?.chapterId}
               />
               <ChapterDescriptionForm
                 initialData={chapter}
-                courseId={params.courseId}
-                chapterId={params.chapterId}
+                courseId={params?.courseId}
+                chapterId={params?.chapterId}
               />
             </div>
             <div>
@@ -95,8 +101,8 @@ const ChapterIdPage = ({
               </div>
               <ChapterAccessForm
                 initialData={chapter}
-                courseId={params.courseId}
-                chapterId={params.chapterId}
+                courseId={params?.courseId}
+                chapterId={params?.chapterId}
               />
             </div>
           </div>
@@ -107,11 +113,11 @@ const ChapterIdPage = ({
             </div>
             <ChapterVideoForm
               initialData={chapter}
-              chapterId={params.chapterId}
-              courseId={params.courseId}
+              chapterId={params?.chapterId}
+              courseId={params?.courseId}
             />
           </div>
-        </div> */}
+        </div>
       </div>
     </>
   );

@@ -24,17 +24,13 @@ import { TitleForm } from "./_components/title-form";
 
 const CourseIdPage = ({ params }: { params: { courseId: string } }) => {
   const { userId }: any = getUserInfo();
-  console.log(!userId);
+
   // if (!userId) {
   //   return redirect("/");
   // }
   console.log(userId, params.courseId);
-
   const { data, isLoading } = useCourseQuery(params.courseId);
-
   const course = data;
-
-  console.log(data);
 
   const categories = getCategories();
 
