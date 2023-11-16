@@ -12,14 +12,14 @@ const modalSlice = createSlice({
   name: "adminModal",
   initialState,
   reducers: {
-    openModal: (state) => {
+    onOpen: (state) => {
       state.isOpen = true;
     },
-    closeModal: (state) => {
+    onClose: (state) => {
       state.isOpen = false;
     },
   },
 });
 
-export const { openModal, closeModal } = modalSlice.actions;
+export const { onOpen, onClose } = modalSlice.actions;
 export default modalSlice.reducer;
