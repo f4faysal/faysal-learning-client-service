@@ -1,6 +1,11 @@
 "use client";
 
-import { LayoutDashboard } from "lucide-react";
+import {
+  CircleDollarSign,
+  File,
+  LayoutDashboard,
+  ListChecks,
+} from "lucide-react";
 
 import { Banner } from "@/components/banner";
 import { IconBadge } from "@/components/icon-badge";
@@ -10,9 +15,12 @@ import getCategories from "@/constants/getCategories";
 import { useCourseQuery } from "@/redux/api/courseApi";
 import { getUserInfo } from "@/services/auth.service";
 import { Actions } from "./_components/actions";
+import { AttachmentForm } from "./_components/attachment-form";
 import { CategoryForm } from "./_components/category-form";
+import { ChaptersForm } from "./_components/chapters-form";
 import { DescriptionForm } from "./_components/description-form";
 import { ImageForm } from "./_components/image-form";
+import { PriceForm } from "./_components/price-form";
 import { TitleForm } from "./_components/title-form";
 
 const CourseIdPage = ({ params }: { params: { courseId: string } }) => {
@@ -29,9 +37,7 @@ const CourseIdPage = ({ params }: { params: { courseId: string } }) => {
 
   console.log(data);
 
-  const categories = getCategories();
-
-  console.log(categories);
+  const categories: any = getCategories();
 
   // if (!course) {
   //   return redirect("/");
@@ -94,13 +100,13 @@ const CourseIdPage = ({ params }: { params: { courseId: string } }) => {
               }))}
             />
           </div>
-          {/* <div className="space-y-6">
+          <div className="space-y-6">
             <div>
               <div className="flex items-center gap-x-2">
                 <IconBadge icon={ListChecks} />
                 <h2 className="text-xl">Course chapters</h2>
               </div>
-              <ChaptersForm initialData={course} courseId={course.id} />
+              <ChaptersForm initialData={course} courseId={course?.id} />
             </div>
             <div>
               <div className="flex items-center gap-x-2">
@@ -116,7 +122,7 @@ const CourseIdPage = ({ params }: { params: { courseId: string } }) => {
               </div>
               <AttachmentForm initialData={course} courseId={course.id} />
             </div>
-          </div> */}
+          </div>
         </div>
       </div>
     </>

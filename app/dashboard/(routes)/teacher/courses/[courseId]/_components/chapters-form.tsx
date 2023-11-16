@@ -18,8 +18,12 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { cn } from "@/lib/utils";
 
+import { cn } from "@/lib/utils";
+import {
+  useCreatechapterMutation,
+  useLastChapterQuery,
+} from "@/redux/api/chapterApi";
 import { ChaptersList } from "./chapters-list";
 
 interface ChaptersFormProps {
@@ -29,11 +33,16 @@ interface ChaptersFormProps {
 
 const formSchema = z.object({
   title: z.string().min(1),
+  courseId: z.string().optional(),
+  position: z.number().optional(),
 });
 
 export const ChaptersForm = ({ initialData, courseId }: ChaptersFormProps) => {
   const [isCreating, setIsCreating] = useState(false);
   const [isUpdating, setIsUpdating] = useState(false);
+  const { data, isLoading } = useLastChapterQuery(courseId);
+
+  const [createchapter] = useCreatechapterMutation();
 
   const toggleCreating = () => {
     setIsCreating((current) => !current);
@@ -51,11 +60,13 @@ export const ChaptersForm = ({ initialData, courseId }: ChaptersFormProps) => {
   const { isSubmitting, isValid } = form.formState;
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    values.courseId = courseId;
+    values.position = data;
     try {
-      await axios.post(`/api/courses/${courseId}/chapters`, values);
+      const res = await createchapter(values);
       toast.success("Chapter created");
       toggleCreating();
-      router.refresh();
+      window.location.reload();
     } catch {
       toast.error("Something went wrong");
     }
@@ -80,6 +91,10 @@ export const ChaptersForm = ({ initialData, courseId }: ChaptersFormProps) => {
   const onEdit = (id: string) => {
     router.push(`/teacher/courses/${courseId}/chapters/${id}`);
   };
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div className="relative mt-6 border bg-slate-100 rounded-md p-4">
@@ -133,10 +148,10 @@ export const ChaptersForm = ({ initialData, courseId }: ChaptersFormProps) => {
         <div
           className={cn(
             "text-sm mt-2",
-            !initialData.chapters.length && "text-slate-500 italic"
+            !initialData?.chapters?.length && "text-slate-500 italic"
           )}
         >
-          {!initialData.chapters.length && "No chapters"}
+          {!initialData?.chapters?.length && "No chapters"}
           <ChaptersList
             onEdit={onEdit}
             onReorder={onReorder}

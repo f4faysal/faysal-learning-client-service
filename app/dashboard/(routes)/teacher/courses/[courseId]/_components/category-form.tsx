@@ -62,7 +62,7 @@ export const CategoryForm = ({
     }
   };
 
-  const selectedOption = options.find(
+  const selectedOption = options?.find(
     (option) => option.value === initialData.categoryId
   );
 

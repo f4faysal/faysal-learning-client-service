@@ -37,6 +37,14 @@ export const chapterApi = baseApi.injectEndpoints({
       }),
       providesTags: [tagTypes.chapter],
     }),
+    // lastchapter
+    lastChapter: build.query({
+      query: (id) => ({
+        url: `${chapter_url}/lastchapter/${id}`,
+        method: "GET",
+      }),
+      providesTags: [tagTypes.chapter],
+    }),
     // chapter chapter
     updatechapter: build.mutation({
       query: (paylod) => ({
@@ -63,4 +71,5 @@ export const {
   useChapterQuery,
   useUpdatechapterMutation,
   useDeletechapterMutation,
+  useLastChapterQuery,
 } = chapterApi;
