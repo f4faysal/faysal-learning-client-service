@@ -20,12 +20,6 @@ export const categoryApi = baseApi.injectEndpoints({
         url: `${CATEGORY_URL}`,
         method: "GET",
       }),
-      transformResponse: (response, meta) => {
-        return {
-          admin: response,
-          meta,
-        };
-      },
 
       providesTags: [tagTypes.category],
     }),
@@ -49,4 +43,8 @@ export const categoryApi = baseApi.injectEndpoints({
   }),
 });
 
-export const {} = categoryApi;
+export const {
+  useCreateCategoryMutation,
+  useCategorysQuery,
+  useCategoryQuery,
+} = categoryApi;

@@ -19,6 +19,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useCreateCourseMutation } from "@/redux/api/courseApi";
+import { getUserInfo } from "@/services/auth.service";
 
 const formSchema = z.object({
   title: z.string().min(1, {
@@ -28,6 +29,7 @@ const formSchema = z.object({
 });
 
 const CreatePage = () => {
+  const { userId }: any = getUserInfo();
   const router = useRouter();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -41,11 +43,10 @@ const CreatePage = () => {
   const { isSubmitting, isValid } = form.formState;
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    values.userId = "1" as any;
+    values.userId = userId;
     try {
       const response: any = await createCourse(values);
-      router.push(`/teacher/courses/${response.data.id}`);
-      console.log(response);
+      router.push(`/dashboard/teacher/courses/${response?.data?.id}`);
       toast.success("Course created");
     } catch {
       toast.error("Something went wrong");

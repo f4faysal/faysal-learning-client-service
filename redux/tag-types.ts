@@ -2,12 +2,16 @@ export enum tagTypes {
   user = "user",
   category = "category",
   course = "course",
-  homeOwners = "homeOwners",
+  chapter = "chapter",
+  attachment = "attachment",
+  muxData = "muxData",
 }
 
 export const tagTypesList = [
   tagTypes.user,
   tagTypes.category,
   tagTypes.course,
-  tagTypes.homeOwners,
+  tagTypes.chapter,
+  tagTypes.attachment,
+  tagTypes.muxData,
 ];
