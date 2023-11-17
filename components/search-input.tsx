@@ -1,9 +1,9 @@
 "use client";
 
-import qs from "query-string";
 import { Search } from "lucide-react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import qs from "query-string";
 import { useEffect, useState } from "react";
-import { useSearchParams, useRouter, usePathname } from "next/navigation";
 
 import { Input } from "@/components/ui/input";
 import { useDebounce } from "@/helpers/hooks/use-debounce";

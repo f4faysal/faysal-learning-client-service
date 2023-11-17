@@ -9,7 +9,7 @@ import toast from "react-hot-toast";
 import { ConfirmModal } from "@/components/modals/confirm-modal";
 import { Button } from "@/components/ui/button";
 import { useUpdateCourseMutation } from "@/redux/api/courseApi";
-import { onOpen } from "@/redux/features/modal/modalSlice";
+import { onClose, onOpen } from "@/redux/features/modal/modalSlice";
 import { useDispatch } from "react-redux";
 
 interface ActionsProps {
@@ -52,7 +52,7 @@ export const Actions = ({ disabled, courseId, isPublished }: ActionsProps) => {
           },
         });
         toast.success("Course published");
-        dispatch(onOpen());
+        dispatch(onClose());
       }
 
       router.refresh();

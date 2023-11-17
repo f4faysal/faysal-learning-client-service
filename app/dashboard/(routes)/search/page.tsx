@@ -1,59 +1,67 @@
-// import { auth } from "@clerk/nextjs";
-// import { redirect } from "next/navigation";
+"use client";
+import { redirect } from "next/navigation";
 
-// import { db } from "@/lib/db";
-// import { SearchInput } from "@/components/search-input";
 // import { getCourses } from "@/actions/get-courses";
-// import { CoursesList } from "@/components/courses-list";
+import { SearchInput } from "@/components/search-input";
 
-// import { Categories } from "./_components/categories";
+import { CoursesList } from "@/components/courses-list";
+import { useCoursesQuery } from "@/redux/api/courseApi";
+import { getUserInfo } from "@/services/auth.service";
+import { Categories } from "./_components/categories";
+import getCategorys from "./_components/getCourses";
 
-// interface SearchPageProps {
-//   searchParams: {
-//     title: string;
-//     categoryId: string;
-//   }
-// };
+interface SearchPageProps {
+  searchParams: {
+    title: string;
+    categoryId: string;
+  };
+}
 
-// const SearchPage = async ({
-//   searchParams
-// }: SearchPageProps) => {
-//   const { userId } = auth();
+const SearchPage = ({ searchParams }: SearchPageProps) => {
+  const { userId }: any = getUserInfo();
 
-//   if (!userId) {
-//     return redirect("/");
-//   }
+  // const { data, isLoading } = useCategorysQuery({});
 
-//   const categories = await db.category.findMany({
-//     orderBy: {
-//       name: "asc"
-//     }
-//   });
+  const { data, isLoading } = useCoursesQuery({});
 
-//   const courses = await getCourses({
-//     userId,
-//     ...searchParams,
-//   });
+  if (!userId) {
+    return redirect("/");
+  }
 
-//   return (
-//     <>
-//       <div className="px-6 pt-6 md:hidden md:mb-0 block">
-//         <SearchInput />
-//       </div>
-//       <div className="p-6 space-y-4">
-//         <Categories
-//           items={categories}
-//         />
-//         <CoursesList items={courses} />
-//       </div>
-//     </>
-//    );
-// }
+  const categories = getCategorys();
 
-// export default SearchPage;
+  const publishedCourses = data?.filter((course: any) => course.isPublished);
 
-const SearchPage = () => {
-  return <div>SearchPage</div>;
+  const courses = publishedCourses?.filter((course: any) => {
+    if (searchParams.title) {
+      return course.title
+        .toLowerCase()
+        .includes(searchParams.title.toLowerCase());
+    }
+
+    if (searchParams.categoryId) {
+      return course.categoryId === searchParams.categoryId;
+    }
+    return true;
+  });
+
+  console.log(courses);
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  return (
+    <>
+      <div className="px-6 pt-6  md:mb-0 block">
+        <SearchInput />
+      </div>
+      <div className="p-6 space-y-4">
+        <Categories items={categories} />
+        <CoursesList items={courses} />
+      </div>
+    </>
+  );
 };
 
 export default SearchPage;

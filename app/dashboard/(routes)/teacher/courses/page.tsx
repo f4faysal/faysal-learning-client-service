@@ -15,8 +15,8 @@ const CoursesPage = () => {
     return redirect("/");
   }
 
-  const courses = data;
-  console.log(courses);
+  const courses = data?.filter((course) => course.userId === userId);
+
   //   where: {
   //     userId,
   //   },
