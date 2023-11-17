@@ -44,7 +44,7 @@ const CourseIdPage = ({ params }: { params: { courseId: string } }) => {
     course?.imageUrl,
     course?.price,
     course?.categoryId,
-    course?.chapters?.some((chapter) => chapter.isPublished),
+    course?.chapters?.some((chapter: any) => chapter.isPublished),
   ];
 
   const totalFields = requiredFields?.length;
@@ -89,7 +89,7 @@ const CourseIdPage = ({ params }: { params: { courseId: string } }) => {
             <CategoryForm
               initialData={course}
               courseId={course.id}
-              options={categories?.map((category) => ({
+              options={categories?.map((category: any) => ({
                 label: category.name,
                 value: category.id,
               }))}
