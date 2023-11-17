@@ -1,18 +1,21 @@
 "use client";
 
-import { useChaptersQuery } from "@/redux/api/chapterApi";
-import { redirect } from "next/navigation";
+import { useCoursesQuery } from "@/redux/api/courseApi";
 
 const CourseIdPage = ({ params }: { params: { courseId: string } }) => {
-  const { data, isLoading } = useChaptersQuery({});
+  const { data, isLoading } = useCoursesQuery({});
 
   // const course = data?.find((course) => course.id === params.courseId);
-  const course = data;
-  if (!course) {
-    return redirect("/");
+  const course: any = data;
+  // if (!course) {
+  //   return redirect("/");
+  // }
+
+  if (isLoading) {
+    return <div>Loading...</div>;
   }
 
-  return redirect(`/courses/chapters/${course?.chapters[0]?.id}`);
+  // return redirect(`/courses/chapters/${course?.chapters[0]?.id}`);
 };
 
 export default CourseIdPage;

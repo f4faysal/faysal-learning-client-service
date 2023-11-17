@@ -17,9 +17,9 @@ export function MainNav({
 
   const instactur = [
     {
-      href: `/my-classes`,
-      label: "My Classes",
-      active: pathname === `/my-classes`,
+      href: `/search`,
+      label: "Course Details",
+      active: pathname === `/search`,
     },
     {
       href: `/courses`,
@@ -34,18 +34,10 @@ export function MainNav({
   ];
   const student = [
     {
-      href: `/my-classes`,
-      label: "My Classes",
-      active: pathname === `/my-classes`,
+      href: `/search`,
+      label: "Course Details",
+      active: pathname === `/search`,
     },
-    {
-      href: `/courses`,
-      label: "Courses",
-      active: pathname === `/my-classes`,
-    },
-  ];
-
-  const routesPublickUser = [
     {
       href: `/courses`,
       label: "Courses",
@@ -88,7 +80,7 @@ export function MainNav({
               {route.label}
             </Link>
           ))
-        : routesPublickUser.map((route) => (
+        : student.map((route) => (
             <Link
               key={route.href}
               href={route.href}
